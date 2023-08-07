@@ -26,9 +26,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 # Setup Project
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 
-# Set C++ Flags - append to existing flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
-
 # Add Subdirectories
 add_subdirectory(lib)
 add_subdirectory(src)
