@@ -2,7 +2,8 @@
 cmake_minimum_required (VERSION 3.24)
 
 # Set Output Directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/release")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/release")
 
 # Set C++ Standard, do not use GNU extensions
 set(CMAKE_CXX_STANDARD 23)
@@ -25,6 +26,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # Setup Project
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION} LANGUAGES CXX)
+
+# Add include directory
+include_directories(inc)
 
 # Add Subdirectories
 add_subdirectory(lib)

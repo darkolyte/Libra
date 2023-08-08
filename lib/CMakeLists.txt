@@ -6,4 +6,8 @@ add_subdirectory(SDL)
 
 # Interface library so our project links to everything SDL3 does
 add_library(lib INTERFACE)
-target_link_libraries(lib INTERFACE SDL3::SDL3)
+target_link_libraries(
+    lib 
+    INTERFACE 
+    SDL3::SDL3
+)
