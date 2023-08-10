@@ -2,7 +2,7 @@
 
 // Set as GUI application and set entry point to main for windows
 #ifdef _WINDOWS
-#include "win_linker_options.h"
+#pragma comment(linker, "/subsystem:windows /entry:main")
 #endif
 
 #include "libra.h"

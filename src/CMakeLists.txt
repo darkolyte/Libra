@@ -33,9 +33,6 @@ target_include_directories(
     ${PROJECT_NAME}
     PRIVATE
         inc/libra.h
-        if (WIN32)
-        inc/win_linker_options
-        endif(WIN32)
 )
 
 # Source files for our executable
