@@ -1,10 +1,5 @@
 # Create executables for our project
 
-# Executable for windows systems
-if (WIN32)
-    add_executable(${PROJECT_NAME} WIN32)
-endif(WIN32)
-
 # Executable for apple systems
 if (APPLE)
     add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
@@ -15,10 +10,10 @@ if (APPLE)
     )
 endif(APPLE)
 
-# Executable for unix systems
-if (UNIX AND NOT APPLE)
+# Executable for non apple unix systems and windows
+if (UNIX OR WIN32)
     add_executable(${PROJECT_NAME})
-endif(UNIX AND NOT APPLE)
+endif(UNIX OR WIN32)
 
 # Copies assets to build directory
 add_custom_target(COPY_ASSETS
