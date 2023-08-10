@@ -1,5 +1,19 @@
-# Create executable for our project
-add_executable(${PROJECT_NAME})
+# Create executables for our project
+
+# Executable for windows systems
+if (WIN32)
+    add_executable(${PROJECT_NAME} WIN32)
+endif(WIN32)
+
+# Executable for apple systems
+if (APPLE)
+    add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
+endif(APPLE)
+
+# Executable for unix systems
+if (UNIX AND NOT APPLE)
+    add_executable(${PROJECT_NAME})
+endif(UNIX AND NOT APPLE)
 
 # Copies assets to build directory
 add_custom_target(COPY_ASSETS
@@ -21,6 +35,7 @@ target_sources(
     ${PROJECT_NAME}
     PRIVATE
         main.cpp
+        libra.cpp
 )
 
 # Libraries to link to our executable

@@ -69,3 +69,14 @@ int main(int argc, char *args[])
 
     return 0;
 }
+
+// Use WinMain entry point if compiling for windows
+#ifdef _WINDOWS
+#include "Windows.h"
+
+// Windows entry point
+int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+{
+    return main(__argc, __argv);
+}
+#endif
