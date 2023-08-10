@@ -8,6 +8,11 @@ endif(WIN32)
 # Executable for apple systems
 if (APPLE)
     add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_LIST_DIR}/assets"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/assets"
+    )
 endif(APPLE)
 
 # Executable for unix systems
@@ -28,6 +33,9 @@ target_include_directories(
     ${PROJECT_NAME}
     PRIVATE
         inc/libra.h
+        if (WIN32)
+        inc/win_linker_options
+        endif(WIN32)
 )
 
 # Source files for our executable
