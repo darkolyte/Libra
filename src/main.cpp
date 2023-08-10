@@ -1,10 +1,5 @@
 #include <SDL3/SDL.h>
 
-// Set as GUI application and set entry point to main for windows
-#ifdef _WINDOWS
-#pragma comment(linker, "/subsystem:windows /entry:main")
-#endif
-
 #include "libra.h"
 
 // Screen dimension defaults
@@ -74,3 +69,12 @@ int main(int argc, char *args[])
 
     return 0;
 }
+
+// Entry point for windows
+#if defined(_WIN32)
+#include <windows.h>
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+    return main(__argc, __argv);
+}
+#endif
