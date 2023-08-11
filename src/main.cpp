@@ -3,29 +3,29 @@
 #include "libra.h"
 
 // Screen dimension defaults
-const static int WINDOW_WIDTH = 800;
-const static int WINDOW_HEIGHT = 800;
+const static int WINDOW_WIDTH = 680;
+const static int WINDOW_HEIGHT = 730;
 
 int main(int argc, char *args[])
 {
     // Declaring SDL Window
     SDL_Window *window = nullptr;
 
-    // The display inside of the window
-    SDL_Surface *windowSurface = nullptr;
+    // The window renderer
+    SDL_Renderer *windowRenderer = nullptr;
 
-    // Current displayed image
-    SDL_Surface *stretchedSurface = nullptr;
+    // Current displayed texture
+    SDL_Texture *displayTexture = nullptr;
 
     // Start SDL and create window
-    if (!Init(window, windowSurface, WINDOW_WIDTH, WINDOW_HEIGHT))
+    if (!Init(window, windowRenderer, WINDOW_WIDTH, WINDOW_HEIGHT))
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to Initialize\n");
     }
     else
     {
         // Load media
-        if (!LoadMedia(stretchedSurface, windowSurface))
+        if (!LoadMedia(displayTexture, windowRenderer))
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load media\n");
         }
@@ -43,29 +43,25 @@ int main(int argc, char *args[])
                 // Handle events on queue
                 while (SDL_PollEvent(&e) != 0)
                 {
+                    // Handle quit event
                     if (e.type == SDL_EVENT_QUIT)
                         quit = true;
-                    else if (e.type == SDL_EVENT_KEY_DOWN)
-                        SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "You pressed: %s", SDL_GetKeyName(e.key.keysym.sym));
                 }
 
-                // Apply the image stretched
-                SDL_Rect destRect;
-                destRect.x = 0;
-                destRect.y = 0;
-                destRect.w = WINDOW_WIDTH;
-                destRect.h = WINDOW_HEIGHT;
+                // Clear screen
+                SDL_RenderClear(windowRenderer);
 
-                SDL_BlitSurfaceScaled(stretchedSurface, NULL, windowSurface, &destRect);
+                // Render texture to screen
+                SDL_RenderTexture(windowRenderer, displayTexture, NULL, NULL);
 
-                // Update the window surface
-                SDL_UpdateWindowSurface(window);
+                // Update screen
+                SDL_RenderPresent(windowRenderer);
             }
         }
     }
 
     // Free resources and Close SDL
-    Close(window, stretchedSurface);
+    Close(displayTexture, windowRenderer, window);
 
     return 0;
 }

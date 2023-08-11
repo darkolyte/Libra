@@ -7,15 +7,16 @@ endif(WIN32)
 
 # Executable for apple systems
 if (APPLE)
-    add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_CURRENT_LIST_DIR}/assets"
-        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/assets"
-    )
+    add_executable(${PROJECT_NAME})
+    # add_executable(${PROJECT_NAME} MACOSX_BUNDLE)
+    # add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    # COMMAND ${CMAKE_COMMAND} -E copy_directory
+    #     "${CMAKE_CURRENT_LIST_DIR}/assets"
+    #     "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/assets"
+    # )
 endif(APPLE)
 
-# Executable for non apple unix systems
+# Executable for linux systems
 if (UNIX AND NOT APPLE)
     add_executable(${PROJECT_NAME})
 endif(UNIX AND NOT APPLE)
