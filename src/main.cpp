@@ -92,9 +92,9 @@ namespace Libra
 
                     // Draw black circle at center
                     SDL_SetRenderDrawColor(window_renderer, 0x00, 0x00, 0x00, 0xFF);
-                    int r = 126;
                     int cx = (window_width / 2);
                     int cy = (window_height / 2);
+                    int r = (cx / 2) + 1;
                     for (int w = 0; w < r * 2; w++)
                     {
                         for (int h = 0; h < r * 2; h++)
