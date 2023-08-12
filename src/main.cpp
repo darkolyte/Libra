@@ -3,8 +3,8 @@
 #include "libra.h"
 
 // Screen dimension defaults
-static int window_width = 680;
-static int window_height = 730;
+static int window_width = 500;
+static int window_height = 500;
 
 namespace Libra
 {
@@ -65,9 +65,48 @@ namespace Libra
                     // SDL_RenderTexture(window_renderer, display_texture, NULL, NULL);
 
                     // Render red filled quad
-                    SDL_FRect filled_rect = {(float)window_width / 4, (float)window_height / 4, (float)window_width / 2, (float)window_height / 2};
+                    SDL_FRect fill_rect = {(float)window_width / 4, (float)window_height / 4, (float)window_width / 2, (float)window_height / 2};
                     SDL_SetRenderDrawColor(window_renderer, 0xFF, 0x00, 0x00, 0xFF);
-                    SDL_RenderFillRect(window_renderer, &filled_rect);
+                    SDL_RenderFillRect(window_renderer, &fill_rect);
+
+                    // Render green outlined quad
+                    SDL_FRect outline_rect = {(float)window_width / 6, (float)window_height / 6, (float)window_width * 2 / 3, (float)window_height * 2 / 3};
+                    SDL_SetRenderDrawColor(window_renderer, 0x00, 0xFF, 0x00, 0xFF);
+                    SDL_RenderRect(window_renderer, &outline_rect);
+
+                    // Draw blue horizontal line
+                    SDL_SetRenderDrawColor(window_renderer, 0x00, 0x00, 0xFF, 0xFF);
+                    SDL_RenderLine(window_renderer, 0, window_height / 2, window_width, window_height / 2);
+
+                    // Draw cyan vertical line
+                    SDL_SetRenderDrawColor(window_renderer, 0x00, 0xFF, 0xFF, 0xFF);
+                    SDL_RenderLine(window_renderer, window_width / 2, window_height, window_width / 2, 0);
+
+                    // Draw yellow diagonal line
+                    SDL_SetRenderDrawColor(window_renderer, 0xFF, 0xFF, 0x00, 0xFF);
+                    SDL_RenderLine(window_renderer, 0, 0, window_width, window_height);
+
+                    // Draw pink diagonal line
+                    SDL_SetRenderDrawColor(window_renderer, 0xFF, 0x00, 0xFF, 0xFF);
+                    SDL_RenderLine(window_renderer, 0, window_height, window_width, 0);
+
+                    // Draw black circle at center
+                    SDL_SetRenderDrawColor(window_renderer, 0x00, 0x00, 0x00, 0xFF);
+                    int r = 126;
+                    int cx = (window_width / 2);
+                    int cy = (window_height / 2);
+                    for (int w = 0; w < r * 2; w++)
+                    {
+                        for (int h = 0; h < r * 2; h++)
+                        {
+                            int dx = r - w; // horizontal offset
+                            int dy = r - h; // vertical offset
+                            if ((dx * dx + dy * dy) <= (r * r))
+                            {
+                                SDL_RenderPoint(window_renderer, cx + dx, cy + dy);
+                            }
+                        }
+                    }
 
                     // Update screen
                     SDL_RenderPresent(window_renderer);
