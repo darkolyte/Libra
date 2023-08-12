@@ -53,17 +53,17 @@ SDL_Texture *LoadTexture(char *path, SDL_Renderer *&renderer)
     SDL_Texture *texture = nullptr;
 
     // Load image from path
-    SDL_Surface *loadedSurface = SDL_LoadBMP(path);
+    SDL_Surface *loaded_surface = SDL_LoadBMP(path);
 
     // Check if image loaded successfully
-    if (!loadedSurface)
+    if (!loaded_surface)
     {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Failed to load image (%s)!\nSDL Error: %s", path, SDL_GetError());
     }
     else
     {
         // Create texture from surface pixels
-        texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+        texture = SDL_CreateTextureFromSurface(renderer, loaded_surface);
 
         // Check if texture was created
         if (!texture)
@@ -72,7 +72,7 @@ SDL_Texture *LoadTexture(char *path, SDL_Renderer *&renderer)
         }
 
         // Free loaded surface from memory
-        SDL_DestroySurface(loadedSurface);
+        SDL_DestroySurface(loaded_surface);
     }
 
     return texture;
