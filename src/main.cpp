@@ -61,50 +61,72 @@ namespace Libra
                     SDL_SetRenderDrawColor(window_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
                     SDL_RenderClear(window_renderer);
 
-                    // Render texture to screen
+                    // // Render texture to screen
                     // SDL_RenderTexture(window_renderer, display_texture, NULL, NULL);
 
-                    // Render red filled quad
-                    SDL_FRect fill_rect = {(float)window_width / 4, (float)window_height / 4, (float)window_width / 2, (float)window_height / 2};
-                    SDL_SetRenderDrawColor(window_renderer, 0xFF, 0x00, 0x00, 0xFF);
-                    SDL_RenderFillRect(window_renderer, &fill_rect);
-
-                    // Render green outlined quad
-                    SDL_FRect outline_rect = {(float)window_width / 6, (float)window_height / 6, (float)window_width * 2 / 3, (float)window_height * 2 / 3};
-                    SDL_SetRenderDrawColor(window_renderer, 0x00, 0xFF, 0x00, 0xFF);
-                    SDL_RenderRect(window_renderer, &outline_rect);
-
-                    // Draw blue horizontal line
-                    SDL_SetRenderDrawColor(window_renderer, 0x00, 0x00, 0xFF, 0xFF);
-                    SDL_RenderLine(window_renderer, 0, window_height / 2, window_width, window_height / 2);
-
-                    // Draw cyan vertical line
-                    SDL_SetRenderDrawColor(window_renderer, 0x00, 0xFF, 0xFF, 0xFF);
-                    SDL_RenderLine(window_renderer, window_width / 2, window_height, window_width / 2, 0);
-
-                    // Draw yellow diagonal line
-                    SDL_SetRenderDrawColor(window_renderer, 0xFF, 0xFF, 0x00, 0xFF);
-                    SDL_RenderLine(window_renderer, 0, 0, window_width, window_height);
-
-                    // Draw pink diagonal line
-                    SDL_SetRenderDrawColor(window_renderer, 0xFF, 0x00, 0xFF, 0xFF);
-                    SDL_RenderLine(window_renderer, 0, window_height, window_width, 0);
-
-                    // Draw black circle at center
                     SDL_SetRenderDrawColor(window_renderer, 0x00, 0x00, 0x00, 0xFF);
-                    int cx = (window_width / 2);
-                    int cy = (window_height / 2);
-                    int r = (cx / 2) + 1;
-                    for (int w = 0; w < r * 2; w++)
+                    SDL_RenderLine(window_renderer, window_width / 2, window_height, window_width / 2, 0);
+                    SDL_RenderLine(window_renderer, 0, window_height / 2, window_width, window_height / 2);
+                    SDL_RenderLine(window_renderer, 0, 0, window_width, window_height);
+                    SDL_RenderLine(window_renderer, window_width, 0, 0, window_height);
+
+                    int cx = window_width / 2;
+                    int cy = window_height / 2;
+
+                    int radius = ((window_width + window_height) / 2) / 3;
+                    int x = radius;
+                    int y = 0;
+
+                    int dx = 1;
+                    int dy = 1;
+                    int error = dx - (radius << 1);
+
+                    while (x >= y)
                     {
-                        for (int h = 0; h < r * 2; h++)
+                        // Pink
+                        SDL_SetRenderDrawColor(window_renderer, 0xFF, 0x00, 0xFF, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx + x, cy + y);
+
+                        // Yellow
+                        SDL_SetRenderDrawColor(window_renderer, 0xFF, 0xFF, 0x00, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx + y, cy + x);
+
+                        // Blue
+                        SDL_SetRenderDrawColor(window_renderer, 0x00, 0x00, 0xFF, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx - y, cy + x);
+
+                        // Grey
+                        SDL_SetRenderDrawColor(window_renderer, 0xAA, 0xAA, 0xAA, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx - x, cy + y);
+
+                        // Green
+                        SDL_SetRenderDrawColor(window_renderer, 0x00, 0xFF, 0x00, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx - x, cy - y);
+
+                        // Cyan
+                        SDL_SetRenderDrawColor(window_renderer, 0x00, 0xFF, 0xFF, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx - y, cy - x);
+
+                        // Black
+                        SDL_SetRenderDrawColor(window_renderer, 0x00, 0x00, 0x00, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx + y, cy - x);
+
+                        // Red
+                        SDL_SetRenderDrawColor(window_renderer, 0xFF, 0x00, 0x00, 0xFF);
+                        SDL_RenderPoint(window_renderer, cx + x, cy - y);
+
+                        if (error <= 0)
                         {
-                            int dx = r - w; // horizontal offset
-                            int dy = r - h; // vertical offset
-                            if ((dx * dx + dy * dy) <= (r * r))
-                            {
-                                SDL_RenderPoint(window_renderer, cx + dx, cy + dy);
-                            }
+                            y++;
+                            error += dy;
+                            dy += 2;
+                        }
+
+                        if (error > 0)
+                        {
+                            x--;
+                            dx += 2;
+                            error += dx - (radius << 1);
                         }
                     }
 
